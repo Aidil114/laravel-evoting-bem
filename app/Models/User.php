@@ -24,6 +24,7 @@ class User extends Authenticatable
         'faculty',
         'major',
         'password',
+         'role',
     ];
 
     /**
