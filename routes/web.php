@@ -1,24 +1,40 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+// =======================
+// ROUTE UNTUK ADMIN
+// =======================
+Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
+    // Dashboard admin
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    // CRUD Admin Management
+    Route::resource('/data-admin', AdminController::class);
+});
+
+// =======================
+// ROUTE UNTUK MAHASISWA / PEMILIH
+// =======================
+Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     // Dashboard mahasiswa
     Route::get('/dashboard', function () {
         return view('user.dashboard');
     })->name('dashboard');
-
-    // Dashboard admin
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
 });
 
+// =======================
+// PROFILE USER (BISA DIAKSES OLEH KEDUA ROLE)
+// =======================
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
