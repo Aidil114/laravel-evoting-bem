@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 
     // CRUD Admin Management
     Route::resource('/data-admin', AdminController::class);
+    Route::resource('/candidates', CandidateController::class); // ✅ CRUD kandidat
 });
 
 // =======================
