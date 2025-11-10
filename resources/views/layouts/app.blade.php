@@ -91,10 +91,13 @@
                     </a>
 
 
-                    <!-- Data Pemilih -->
-                    <a href="#" class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50">
+                   <!-- Data Pemilih -->
+                    <a href="{{ route('data-pemilih.index') }}"
+                        class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50
+                        {{ request()->routeIs('data-pemilih.*') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : '' }}">
                         👥 Data Pemilih
                     </a>
+
 
                     <!-- Hasil Pemilihan -->
                     <a href="#" class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50">
