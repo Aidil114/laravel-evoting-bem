@@ -28,17 +28,12 @@
             sidebar.classList.toggle("-translate-x-full");
             overlay.classList.toggle("hidden");
         }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const section = document.querySelector('[data-section="default"]');
-            if (section) section.classList.remove("hidden");
-        });
     </script>
 </head>
 
 <body class="bg-gray-50">
 
-    <!-- Sidebar Overlay -->
+    <!-- Overlay -->
     <div id="sidebar-overlay"
         class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"
         onclick="toggleSidebar()"></div>
@@ -68,45 +63,59 @@
         <nav class="mt-4 px-3 flex-1 overflow-y-auto">
             <div class="space-y-1">
 
-               @if (Auth::user()->role === 'admin')
-                    <!-- Overview -->
+                @if (Auth::user()->role === 'admin')
+                    <!-- Menu Admin -->
                     <a href="{{ route('admin.dashboard') }}"
                         class="block px-3 py-2.5 text-sm font-medium rounded-lg 
                         {{ request()->routeIs('admin.dashboard') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : 'text-gray-600 hover:bg-gray-50' }}">
                         🏠 Overview
                     </a>
 
-                    <!-- Data Admin -->
                     <a href="{{ route('data-admin.index') }}"
                         class="block px-3 py-2.5 text-sm font-medium rounded-lg 
                         {{ request()->routeIs('data-admin.*') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : 'text-gray-600 hover:bg-gray-50' }}">
                         👤 Data Admin
                     </a>
 
-                    <!-- Kelola Kandidat -->
                     <a href="{{ route('candidates.index') }}"
-                    class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50
-                    {{ request()->routeIs('candidates.*') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : '' }}">
-                    🧑‍💼 Kelola Kandidat
+                        class="block px-3 py-2.5 text-sm font-medium rounded-lg 
+                        {{ request()->routeIs('candidates.*') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : 'text-gray-600 hover:bg-gray-50' }}">
+                        🧑‍💼 Kelola Kandidat
                     </a>
 
-
-                   <!-- Data Pemilih -->
                     <a href="{{ route('data-pemilih.index') }}"
-                        class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50
-                        {{ request()->routeIs('data-pemilih.*') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : '' }}">
+                        class="block px-3 py-2.5 text-sm font-medium rounded-lg 
+                        {{ request()->routeIs('data-pemilih.*') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : 'text-gray-600 hover:bg-gray-50' }}">
                         👥 Data Pemilih
                     </a>
 
-
-                    <!-- Hasil Pemilihan -->
-                    <a href="#" class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50">
+                    <a href="#"
+                        class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50">
                         📊 Hasil Pemilihan
                     </a>
 
-                    <!-- Pengaturan Periode -->
-                    <a href="#" class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50">
+                    <a href="#"
+                        class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50">
                         📅 Pengaturan Periode
+                    </a>
+
+                @else
+                    <!-- Menu Mahasiswa -->
+                    <a href="{{ route('dashboard') }}"
+                        class="block px-3 py-2.5 text-sm font-medium rounded-lg 
+                        {{ request()->routeIs('dashboard') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : 'text-gray-600 hover:bg-gray-50' }}">
+                        🏠 Beranda
+                    </a>
+
+                    <a href="{{ route('vote.index') }}"
+                        class="block px-3 py-2.5 text-sm font-medium rounded-lg 
+                        {{ request()->routeIs('vote.index') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : 'text-gray-600 hover:bg-gray-50' }}">
+                        🗳️ Voting Sekarang
+                    </a>
+
+                    <a href="#"
+                        class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50">
+                        📈 Hasil Voting
                     </a>
                 @endif
 

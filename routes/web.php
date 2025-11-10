@@ -3,6 +3,8 @@
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\VoteController;
 use App\Http\Controllers\VoterController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,11 +31,14 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 // =======================
 // ROUTE UNTUK MAHASISWA / PEMILIH
 // =======================
+
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
-    // Dashboard mahasiswa
-    Route::get('/dashboard', function () {
-        return view('user.dashboard');
-    })->name('dashboard');
+    // Dashboard mahasiswa (dinamis dari controller)
+    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+
+    // Fitur Voting
+    Route::get('/voting', [VoteController::class, 'index'])->name('vote.index');
+    Route::post('/voting', [VoteController::class, 'store'])->name('vote.store');
 });
 
 // =======================
