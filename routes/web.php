@@ -24,21 +24,25 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 
     // CRUD Admin Management
     Route::resource('/data-admin', AdminController::class);
-    Route::resource('/candidates', CandidateController::class); // ✅ CRUD kandidat
+    Route::resource('/candidates', CandidateController::class);
     Route::resource('/data-pemilih', VoterController::class);
+
+    // ✅ Hasil Voting (khusus admin)
+    Route::get('/hasil-voting', [VoteController::class, 'results'])->name('admin.votes.results');
 });
 
 // =======================
 // ROUTE UNTUK MAHASISWA / PEMILIH
 // =======================
-
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
-    // Dashboard mahasiswa (dinamis dari controller)
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
     // Fitur Voting
     Route::get('/voting', [VoteController::class, 'index'])->name('vote.index');
     Route::post('/voting', [VoteController::class, 'store'])->name('vote.store');
+
+    // ✅ Hasil Voting (khusus user)
+    Route::get('/hasil-voting', [VoteController::class, 'results'])->name('vote.results');
 });
 
 // =======================
