@@ -3,6 +3,8 @@
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\PeriodeVotingController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\VoterController;
@@ -18,9 +20,7 @@ Route::get('/', function () {
 // =======================
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(function () {
     // Dashboard admin
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     // CRUD Admin Management
     Route::resource('/data-admin', AdminController::class);
@@ -29,6 +29,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->group(fu
 
     // ✅ Hasil Voting (khusus admin)
     Route::get('/hasil-voting', [VoteController::class, 'results'])->name('admin.votes.results');
+
+    // Pengaturan Periode Voting
+       Route::resource('/periode', PeriodeVotingController::class)->names('admin.periode');
+
 });
 
 // =======================
@@ -42,6 +46,8 @@ Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     Route::post('/voting', [VoteController::class, 'store'])->name('vote.store');
 
     // ✅ Hasil Voting (khusus user)
+    Route::get('/voting', [VoteController::class, 'index'])->name('vote.index');
+    Route::post('/voting', [VoteController::class, 'store'])->name('vote.store');
     Route::get('/hasil-voting', [VoteController::class, 'results'])->name('vote.results');
 });
 

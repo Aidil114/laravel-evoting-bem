@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yield('title', 'Dashboard') - E-Voting BEM</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         tailwind.config = {
@@ -96,10 +97,13 @@
                     </a>
 
 
-                    <a href="#"
-                        class="block px-3 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50">
+                    <a href="{{ route('admin.periode.index') }}"
+                        class="block px-3 py-2.5 text-sm font-medium rounded-lg 
+                        {{ request()->routeIs('admin.periode.*') ? 'bg-primary-100 text-primary-700 border-l-4 border-primary-500' : 'text-gray-600 hover:bg-gray-50' }}">
                         📅 Pengaturan Periode
                     </a>
+
+
 
                 @else
                     <!-- Menu Mahasiswa -->
@@ -173,4 +177,5 @@
         </main>
     </div>
 </body>
+@stack('scripts')
 </html>

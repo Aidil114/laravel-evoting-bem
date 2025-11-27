@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\PeriodeVoting;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +14,21 @@ class VoteController extends Controller
      * Halaman Voting
      */
     public function index()
-    {
-        // Cek apakah user sudah melakukan voting
-        $hasVoted = Vote::where('user_id', Auth::id())->exists();
-        $candidates = Candidate::all();
+{
+    $hasVoted = Vote::where('user_id', Auth::id())->exists();
+    $candidates = Candidate::all();
 
-        return view('user.voting.index', compact('candidates', 'hasVoted'));
+    // Ambil periode voting terbaru
+    $periode = PeriodeVoting::orderBy('start_time', 'desc')->first();
+
+    // Cek validitas periode
+    if (!$periode) {
+        return redirect()->back()->with('error', 'Belum ada periode voting yang diatur.');
     }
+
+    return view('user.voting.index', compact('candidates', 'hasVoted', 'periode'));
+}
+
 
     /**
      * Simpan hasil voting user

@@ -33,11 +33,13 @@
                     <td class="py-2 px-3">{{ $voter->faculty ?? '-' }}</td>
                     <td class="py-2 px-3">{{ $voter->major ?? '-' }}</td>
                     <td class="py-2 px-3 text-center">
-                        <a href="{{ route('data-pemilih.edit', $voter) }}" class="text-blue-600 hover:underline">Edit</a> |
+                        <a href="{{ route('data-pemilih.edit', $voter) }}" class="px-3 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition">Edit</a> 
                         <form action="{{ route('data-pemilih.destroy', $voter) }}" method="POST" class="inline" onsubmit="return confirm('Hapus pemilih ini?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:underline">Hapus</button>
+                            <button type="button" class="btn-delete px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                🗑️ Hapus
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -50,3 +52,32 @@
     </table>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+        
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const form = this.closest('form');
+                
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Data ini tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#e3342f',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+@endpush
