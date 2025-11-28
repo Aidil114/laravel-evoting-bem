@@ -87,6 +87,9 @@ php artisan migrate
 Jalankan seeder (data default admin & user):
 php artisan db:seed
 
+Jalankan Storage link:
+php artisan storage:link
+
 Jalankan server:
 php artisan serve
 
